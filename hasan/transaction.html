@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History - Fitness Equipment Store</title>
+    <link rel="stylesheet" href="../main.css">
+    <style>
+
+.transaction-container {
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.page-title {
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.transaction-table th,
+.transaction-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.transaction-table th {
+    background-color: var(--secondary);
+    color: var(--white);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.transaction-table tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+.transaction-table tr:hover {
+    background-color: #f0f0f0;
+}
+
+.status {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.status.completed {
+    background-color: #4caf50;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .transaction-container {
+        padding: 1rem;
+    }
+
+    .transaction-table th,
+    .transaction-table td {
+        padding: 0.75rem;
+    }
+}
+    </style>
+</head>
+<body class="body-backg">
+    <div id="header"></div>
+
+    <main class="container">
+        <div class="transaction-container">
+            <h2 class="page-title">Transaction History</h2>
+            <div class="table-container">
+                <table class="transaction-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Product</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2024-11-01</td>
+                            <td>Dumbbells Set</td>
+                            <td>$99.99</td>
+                            <td><span class="status completed">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>2024-10-28</td>
+                            <td>Yoga Mat</td>
+                            <td>$29.99</td>
+                            <td><span class="status completed">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>2024-10-15</td>
+                            <td>Resistance Bands</td>
+                            <td>$19.99</td>
+                            <td><span class="status completed">Completed</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer"></div>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
