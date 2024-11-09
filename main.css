@@ -1,4 +1,4 @@
-/*to use the primary color, just add var(--primary) to the css or any other name u wana use*/
+/*to use the primary color, just add var(--primary) to the css or any other name u wana use */  /*hasan*/ 
 :root {
     --primary: #ff6b35;
     --primary-light: #ff8c5a;
@@ -128,7 +128,7 @@ button:hover {
     }
 }
 
-/*use this for the gradient backgrund effect (metel in the pics) add it as a class aal <body>*/
+/*use this for the gradient backgrund effect (metel in the pics) add it as a class aal <body>*/ /*hasan*/ 
 .body-backg{
     background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
     min-height: 100vh;
