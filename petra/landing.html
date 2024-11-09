@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page - Fitness Equipment Store</title>
+    <link rel="stylesheet" href="../main.css">
+    <link target="_blank">
+    <style>
+        .landing-container {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+            height: fit-content;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .sliding-image-container {
+            position: relative;
+            margin: 0 auto;
+            width: 70%;
+            overflow: hidden;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+        }
+
+        .image-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .image-container img {
+            border-radius: 8px;
+            height: 29vmax;
+            width: 50vmax;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px;
+            color: var(--text);
+            background-color: var(--white);
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            right: 0;
+        }
+
+        .arrow:hover {
+            color: var(--text-light);
+            background-color: var(--white);
+        }
+
+        .header-text {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            padding-left: 10px;
+            padding-right: 10px;
+            color: var(--text);
+        }
+
+        .shop-items {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .shop-item {
+            text-align: center;
+            width: 25%;
+            height:fit-content;
+        }
+
+        .shop-item img {
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 15vmax;
+            height: 15vmax;
+            object-fit: contain;
+        }
+
+        .shop-item img:hover {
+            width: 17vmax;
+            height: 17vmax;
+        }
+
+        .item-description {
+            color: var(--text);
+            margin-bottom: 20px;
+        }
+
+        .item-description h3, .item-description p {
+            margin: 4px;
+        }
+
+        .item-price {
+            color: var(--price);
+        }
+
+        .item-info {
+            color: var(--text-light);
+        }
+
+        .item-info-news {
+            color: var(--price);
+            text-decoration: underline;
+        }
+
+        .more-items {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        .more-items a {
+            text-decoration: none;
+        }
+
+        .more-items a:link, a:active, a:visited {
+            color: var(--text-light);
+            text-decoration: none;
+        }
+
+        .more-items a:hover {
+            color: var(--text);
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
+
+    <body class="body-backg">
+        <div id="header"></div>
+
+        <main class="container">
+            <div class="landing-container">
+
+                <div class="sliding-image-container">
+                    <button class="arrow left" onclick="changeImage(-1)"><</button>
+                    <div class="image-container">
+                        <img src="sliding1.png" id="slideImage" alt="sliding images">
+                    </div>
+                    <button class="arrow right" onclick="changeImage(1)">></button>
+                </div>
+
+                <div class="header-text">
+                    <h1>Welcome to Fitness Equipment Store</h1>
+                    <p>Your one-stop shop for high-quality gym equipment to get you in shape. Browse our selection of the best equipment to enhance your workout routine and achieve your fitness goals!</p>
+                </div>
+    
+                <div class="shop-items">
+                    <div class="shop-item">
+                        <figure>
+                            <img src="dumbbells.webp" alt="Dumbbells Set" />
+                        </figure>
+                        <div class="item-description">
+                            <h3>Dumbbells Set (6KG - 12KG - 20KG)</h3>
+                            <p class="item-price">$15.99</p>
+                            <p class="item-info-news">Limited time offer!</p>
+                        </div>
+                    </div>
+    
+                    <div class="shop-item">
+                        <figure>
+                            <img src="treadmill.jpg" alt="Treadmill" />
+                        </figure>
+                        <div class="item-description">
+                            <h3>SOLE F63 Treadmill</h3>
+                            <p class="item-price">$1,199.99</p>
+                            <p class="item-info-news">New Edition</p>
+                        </div>
+                    </div>
+    
+                    <div class="shop-item">
+                        <figure>
+                            <img src="yogamat.webp" alt="Yoga Mat" />
+                        </figure>
+                        <div class="item-description">
+                            <h3>BalanceFrom Yoga Mat</h3>
+                            <p class="item-price">$14.99</p>
+                            <p class="item-info">BalanceFrom All-Purpose 1/2 In. High Density Foam Yoga Mat Anti-Tear with Carrying Strap, Blue</p>
+                        </div>
+                    </div>
+    
+                    <div class="shop-item">
+                        <figure>
+                            <img src="gymgloves.jpg" alt="Gym Gloves" />
+                        </figure>
+                        <div class="item-description">
+                            <h3>LTrevFIT Gym Gloves</h3>
+                            <p class="item-price">$16.99</p>
+                            <p class="item-info">LTrevFIT Women/Men Gym Gloves With Wrist Wrap</p>
+                        </div>
+                    </div>
+
+                    <div class="more-items">
+                        <a href="shop.html" target="_blank">View More Items</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div id="footer"></div>
+
+        <script>
+            let images = ['sliding1.png', 'sliding2.png', 'sliding3.png'];
+            let currentIndex = 0;
+    
+            function changeImage(direction) {
+                currentIndex = (currentIndex + direction + images.length) % images.length;
+                document.getElementById("slideImage").src = images[currentIndex];
+            }
+        </script>
+    </body>
+</head>
+</html>
