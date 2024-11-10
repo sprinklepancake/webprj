@@ -13,6 +13,9 @@
     --text-light: #666666;
     --white: #ffffff;
     --price: #d60000;
+    --border-light: #7e7e7e;
+    --border-dark: #383838;
+    --background-very-light: #e6e6e6;
 }
 
 body {
