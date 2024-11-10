@@ -37,14 +37,14 @@ body {
     justify-content: center;
 }
 
-header {
+.header_class {
     background-color: var(--primary);
     color: var(--white);
     padding: 1rem 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-nav ul {
+.header_class nav ul {
     list-style-type: none;
     padding: 0;
     display: flex;
@@ -52,18 +52,18 @@ nav ul {
     flex-wrap: wrap;
 }
 
-nav ul li {
+.header_class nav ul li {
     margin: 0 1rem;
 }
 
-nav ul li a {
+.header_class nav ul li a {
     color: var(--white);
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s ease;
 }
 
-nav ul li a:hover {
+.header_class nav ul li a:hover {
     color: var(--secondary-light);
 }
 
