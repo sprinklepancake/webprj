@@ -2,6 +2,8 @@
 
 ## Web Wizards
 
+### Links lead you to github pages deployment.
+
 ### Hasan's Pages:
 - [Login Page](https://sprinklepancake.github.io/webprj/hasan/login)
 - [Transaction Page](https://sprinklepancake.github.io/webprj/hasan/transaction)
