@@ -16,5 +16,5 @@
 - [Posting](https://github.com/sprinklepancake/webprj/blob/main/tia/posting.html)
 
 ### Petra's Pages:
-- [Landing Page](https://github.com/sprinklepancake/webprj/blob/main/index.html)
+- [Landing Page](https://github.com/sprinklepancake/webprj/blob/main/petra/landing.html)
 - [Shop Page](https://github.com/sprinklepancake/webprj/blob/main/petra/shop.html)
