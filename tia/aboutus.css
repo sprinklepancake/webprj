@@ -1,0 +1,153 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f9f9f9;
+    padding: 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+}
+
+.about-header {
+    text-align: center;
+    padding: 30px 0;
+    border-bottom: 2px solid #ddd;
+}
+
+.about-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.about-header h2 {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: #444;
+}
+
+.intro {
+    text-align: center;
+    padding: 30px 0;
+}
+
+.intro-logo {
+    width: 120px;
+    margin-bottom: 20px;
+}
+
+.intro p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: auto;
+    color: #444;
+}
+
+
+h3 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 8px;
+}
+
+
+section {
+    margin-top: 30px;
+}
+
+
+.values ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    list-style-type: none;
+    padding: 0;
+}
+
+.values li {
+    flex: 1 1 calc(33% - 30px); 
+    background: #e1d4e3;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+
+.product-highlights ul {
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.product-highlights li {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.vision p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    color: #333;
+    text-align: center;
+    line-height: 1.7;
+}
+
+.our-promise p {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.5;
+    padding: 5px 0;
+}
+
+.commitment p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.7;
+    color: #333;
+    padding: 10px 0;
+}
+
+.main-footer {
+    text-align: center;
+    padding: 15px 0;
+    border-top: 1px solid #ddd;
+    margin-top: 30px;
+    color: #222;
+}
+
+
+button, a {
+    transition: transform 0.2s ease, text-decoration 0.2s ease;
+}
+
+button:hover, a:hover {
+    transform: scale(1.05);
+    text-decoration: underline;
+}
+
+
+@media (max-width: 768px) {
+    .values ul, .team {
+        flex-direction: column;
+    }
+
+    .values li {
+        flex: 1 1 100%;
+    }
+}
