@@ -37,6 +37,11 @@ body {
     justify-content: center;
 }
 
+.grad-color {
+    background: linear-gradient(170deg,var(--secondary)  0%, var(--primary) 100%);
+}
+
+
 .header_class {
     background-color: var(--primary);
     color: var(--white);
