@@ -3,18 +3,18 @@
 ## Web Wizards
 
 ### Hasan's Pages:
-- [Login Page](https://github.com/sprinklepancake/webprj/blob/main/hasan/login.html)
-- [Transaction Page](https://github.com/sprinklepancake/webprj/blob/main/hasan/transaction.html)
-- [Equipments Guide Page](https://github.com/sprinklepancake/webprj/blob/main/hasan/equipment-guide.html)
+- [Login Page](https://sprinklepancake.github.io/webprj/hasan/login)
+- [Transaction Page](https://sprinklepancake.github.io/webprj/hasan/transaction)
+- [Equipments Guide Page](https://sprinklepancake.github.io/webprj/hasan/equipment-guide)
 
 ### Mira's Pages:
 - My Cart
 - Profile
 
 ### Tia's Pages:
-- [About Us](https://github.com/sprinklepancake/webprj/blob/main/tia/aboutus.html)
-- [Posting](https://github.com/sprinklepancake/webprj/blob/main/tia/posting.html)
+- [About Us](https://sprinklepancake.github.io/webprj/tia/aboutus)
+- [Posting](https://sprinklepancake.github.io/webprj/tia/posting)
 
 ### Petra's Pages:
 - [Landing Page](https://sprinklepancake.github.io/webprj/petra/landing)
-- [Shop Page](https://github.com/sprinklepancake/webprj/blob/main/petra/shop.html)
+- [Shop Page](https://sprinklepancake.github.io/webprj/petra/shop)
