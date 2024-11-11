@@ -1,82 +1,91 @@
+<!--hasan-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!--//TODO: work on SEO-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Fitness Equipment Store</title>
+
+    <!--bootstrap css-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="../main.css">
     <style>
+        /* Shape styling */
         .shape {
             position: absolute;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             animation: float 15s infinite ease-in-out;
         }
-
-        .shape:nth-child(1) {
-            width: 80px;
-            height: 80px;
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .shape:nth-child(2) {
-            width: 60px;
-            height: 60px;
-            top: 20%;
-            right: 15%;
-            animation-delay: 2s;
-        }
-
-        .shape:nth-child(3) {
-            width: 100px;
-            height: 100px;
-            bottom: 15%;
-            left: 20%;
-            animation-delay: 4s;
-        }
-
-        .shape:nth-child(4) {
-            width: 50px;
-            height: 50px;
-            bottom: 10%;
-            right: 10%;
-            animation-delay: 6s;
-        }
+        .shape:nth-child(1) { width: 80px; height: 80px; top: 10%; left: 10%; animation-delay: 0s; }
+        .shape:nth-child(2) { width: 60px; height: 60px; top: 20%; right: 15%; animation-delay: 2s; }
+        .shape:nth-child(3) { width: 100px; height: 100px; bottom: 15%; left: 20%; animation-delay: 4s; }
+        .shape:nth-child(4) { width: 50px; height: 50px; bottom: 10%; right: 10%; animation-delay: 6s; }
 
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-80px) rotate(180deg); }
+        }
+
+        /* Form styling */
+        .login-container {
+            background-color: #ffffffcc;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .login-container h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .btn-login {
+            width: 100%;
+            padding: 0.75rem;
+            font-weight: bold;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        .btn-login:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body class="body-backg">
     <div id="header"></div>
 
-    <main class="container">
+    <main class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="col-md-6 col-lg-4">
             <form id="login-form" class="login-container">
                 <h2>Login</h2>
                 <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required>
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required>
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
                 </div>
-                <button type="submit">Login</button>
+                <button type="submit" class="btn btn-login">Login</button>
             </form>
+        </div>
     </main>
 
+    <!-- the little bubbles -->
     <div class="shape"></div>
     <div class="shape"></div>
     <div class="shape"></div>
     <div class="shape"></div>
-    
 
     <div id="footer"></div>
 
+    <!-- bootstrap js + some deps -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
 </body>
 </html>

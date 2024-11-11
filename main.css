@@ -13,9 +13,6 @@
     --text-light: #666666;
     --white: #ffffff;
     --price: #d60000;
-    --border-light: #7e7e7e;
-    --border-dark: #383838;
-    --background-very-light: #e6e6e6;
 }
 
 body {
@@ -40,16 +37,102 @@ body {
     justify-content: center;
 }
 
-.grad-color {
-    background: linear-gradient(170deg,var(--secondary)  0%, var(--primary) 100%);
+.header_class {
+    color: var(--white);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 100;
+  }
+  
+  .grad-color {
+    background: linear-gradient(170deg, var(--secondary) 0%, var(--primary) 100%);
+  }
+
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .logo a {
+    font-size: 1.8rem;
+    color: var(--white);
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .menu-icon {
+    display: none; /*make it hidden on desktop (only visible for mobile*/
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--white);
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
 }
 
-
-.header_class {
-    background-color: var(--primary);
+  
+.nav-links {
+    display: flex; /*visible by default on desktop*/
+}
+  
+  .nav-links li a {
     color: var(--white);
-    padding: 1rem 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    text-decoration: none;
+    position: relative;
+    padding: 0.5rem;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-links li a::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 2px;
+    background: var(--secondary-light);
+    transition: width 0.3s;
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+  }
+  
+  .nav-links li a:hover::after {
+    width: 100%;
+  }
+  
+  .nav-links li a:hover {
+    color: var(--secondary-light);
+  }
+  
+  /*mobile*/
+  @media (max-width: 768px) {
+    .menu-icon {
+        display: block; /*show menu icon on mobile*/
+    }
+
+    .nav-links {
+        display: none; /*hide nav links by default on mobile*/
+        flex-direction: column;
+        width: 100%;
+        background-color: var(--primary);
+        position: absolute;
+        top: 60px;
+        left: 0;
+        padding: 1rem;
+        z-index: 10;
+    }
+
+    .nav-links.active {
+        display: flex; /*show nav links when active on mobile*/
+    }
+
+    .nav-links-li {
+        margin: 0.5rem 0;
+    }
 }
 
 .header_class nav ul {
