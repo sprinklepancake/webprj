@@ -12,9 +12,9 @@
 - Profile
 
 ### Tia's Pages:
-- About Us
-- Posting
+- [About Us](https://github.com/sprinklepancake/webprj/blob/main/tia/aboutus.html)
+- [Posting](https://github.com/sprinklepancake/webprj/blob/main/tia/posting.html)
 
 ### Petra's Pages:
-- [Landing Page](https://github.com/sprinklepancake/webprj/blob/main/petra/landing.html)
+- [Landing Page](https://github.com/sprinklepancake/webprj/blob/main/index.html)
 - [Shop Page](https://github.com/sprinklepancake/webprj/blob/main/petra/shop.html)
