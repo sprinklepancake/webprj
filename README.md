@@ -10,7 +10,7 @@
 - [Equipments Guide Page](https://sprinklepancake.github.io/webprj/hasan/equipment-guide)
 
 ### Mira's Pages:
-- [My Cart](`https://sprinklepancake.github.io/webprj/mira/cart`)
+- [My Cart](https://sprinklepancake.github.io/webprj/mira/cart)
 - [Profile](https://sprinklepancake.github.io/webprj/mira/profile)
 - [Checkout](https://sprinklepancake.github.io/webprj/mira/checkout)
 
