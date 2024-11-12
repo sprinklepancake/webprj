@@ -74,77 +74,80 @@
         }
     </style>
 </head>
-<body>
 
-<h2>Checkout</h2>
+<body class="body-backg">
+    <div id="header"></div>
 
-<!-- Location Section with more details -->
-<section class="checkout-section">
-    <h3>Your Location</h3>
-    <div class="location-section">
-        <div>
-            <label for="country">Country:</label>
-            <input type="text" id="country" class="location-input" placeholder="Enter your country" required>
+    <h2>Checkout</h2>
+
+    <!-- Location Section with more details -->
+    <section class="checkout-section">
+        <h3>Your Location</h3>
+        <div class="location-section">
+            <div>
+                <label for="country">Country:</label>
+                <input type="text" id="country" class="location-input" placeholder="Enter your country" required>
+            </div>
+            <div>
+                <label for="region">Region/State:</label>
+                <input type="text" id="region" class="location-input" placeholder="Enter your region/state" required>
+            </div>
         </div>
-        <div>
-            <label for="region">Region/State:</label>
-            <input type="text" id="region" class="location-input" placeholder="Enter your region/state" required>
+        <div class="location-section">
+            <div>
+                <label for="street">Street Address:</label>
+                <input type="text" id="street" class="location-input" placeholder="Enter your street address" required>
+            </div>
+            <div>
+                <label for="building">Building/Apartment:</label>
+                <input type="text" id="building" class="location-input" placeholder="Building or apartment number" required>
+            </div>
         </div>
-    </div>
-    <div class="location-section">
-        <div>
-            <label for="street">Street Address:</label>
-            <input type="text" id="street" class="location-input" placeholder="Enter your street address" required>
-        </div>
-        <div>
-            <label for="building">Building/Apartment:</label>
-            <input type="text" id="building" class="location-input" placeholder="Building or apartment number" required>
-        </div>
-    </div>
-</section>
+    </section>
 
-<!-- Payment Method Section -->
-<section class="checkout-section">
-    <h3>Payment Method</h3>
-    <label for="payment-method">Choose a payment method:</label>
-    <select id="payment-method" class="location-input" required>
-        <option value="credit-card">Credit Card</option>
-        <option value="paypal">PayPal</option>
-        <option value="bank-transfer">Bank Transfer</option>
-        <option value="payment-on-delivery">Payment on Delivery</option> <!-- New payment option -->
-    </select>
-</section>
+    <!-- Payment Method Section -->
+    <section class="checkout-section">
+        <h3>Payment Method</h3>
+        <label for="payment-method">Choose a payment method:</label>
+        <select id="payment-method" class="location-input" required>
+            <option value="credit-card">Credit Card</option>
+            <option value="paypal">PayPal</option>
+            <option value="bank-transfer">Bank Transfer</option>
+            <option value="payment-on-delivery">Payment on Delivery</option> <!-- New payment option -->
+        </select>
+    </section>
 
-<!-- Proceed with Shipping Button -->
-<section class="checkout-section">
-    <button class="checkout-btn" id="shipping-btn" onclick="proceedWithShipping()">Proceed with Shipping</button>
-</section>
+    <!-- Proceed with Shipping Button -->
+    <section class="checkout-section">
+        <button class="checkout-btn" id="shipping-btn" onclick="proceedWithShipping()">Proceed with Shipping</button>
+    </section>
 
-<!-- Shipping Confirmation Message -->
-<section id="shipping-message" class="message">
-    <p><span class="cart-icon">🛒</span> Shipping on the way!</p>
-</section>
+    <!-- Shipping Confirmation Message -->
+    <section id="shipping-message" class="message">
+        <p><span class="cart-icon">🛒</span> Shipping on the way!</p>
+    </section>
+    <div id="footer"></div>
 
-<script>
-    function proceedWithShipping() {
-        // Get values from the form
-        const country = document.getElementById('country').value;
-        const region = document.getElementById('region').value;
-        const street = document.getElementById('street').value;
-        const building = document.getElementById('building').value;
-        const paymentMethod = document.getElementById('payment-method').value;
+    <script>
+        function proceedWithShipping() {
+            // Get values from the form
+            const country = document.getElementById('country').value;
+            const region = document.getElementById('region').value;
+            const street = document.getElementById('street').value;
+            const building = document.getElementById('building').value;
+            const paymentMethod = document.getElementById('payment-method').value;
 
-        // Check if all location fields and payment method are filled out
-        if (!country || !region || !street || !building || !paymentMethod) {
-            alert("Please fill in all the required fields.");
-            return;
+            // Check if all location fields and payment method are filled out
+            if (!country || !region || !street || !building || !paymentMethod) {
+                alert("Please fill in all the required fields.");
+                return;
+            }
+
+            // Hide the checkout button and show the shipping message
+            document.getElementById('shipping-btn').style.display = 'none'; // Hide the button
+            document.getElementById('shipping-message').style.display = 'block'; // Show the message
         }
-
-        // Hide the checkout button and show the shipping message
-        document.getElementById('shipping-btn').style.display = 'none'; // Hide the button
-        document.getElementById('shipping-message').style.display = 'block'; // Show the message
-    }
-</script>
+    </script>
 
 </body>
 </html>
