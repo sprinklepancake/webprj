@@ -10,8 +10,9 @@
 - [Equipments Guide Page](https://sprinklepancake.github.io/webprj/hasan/equipment-guide)
 
 ### Mira's Pages:
-- My Cart
-- Profile
+- [My Cart](`https://sprinklepancake.github.io/webprj/mira/cart`)
+- [Profile](https://sprinklepancake.github.io/webprj/mira/profile)
+- [Checkout](https://sprinklepancake.github.io/webprj/mira/checkout)
 
 ### Tia's Pages:
 - [About Us](https://sprinklepancake.github.io/webprj/tia/aboutus)
