@@ -7,6 +7,20 @@
     <link rel="stylesheet" href="../main.css"> 
     <link target ="_blank">
     <style>
+        .transaction-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--primary-dark); /* Change this to your preferred color */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.transaction-button:hover {
+    background-color: var(--secondary-dark); /* Hover color */
+}
+
         /* Profile Photo Styling */
         .profile-photo img {
             width: 150px;
@@ -100,10 +114,7 @@
     <div id="header"></div>
 
     <div class="container">
-        
-        <header class="header_class">
-            <h1>My Profile</h1>
-        </header>
+
 
         
         <section class="profile-section">
@@ -159,6 +170,9 @@
                         <td>Shipped on: 11/10/2024</td>
                     </tr>
                 </table>
+                <div style="margin-top: 20px;">
+                    <a href="../hasan/transaction.html" class="transaction-button">View Transactions</a>
+                </div>
             </section>
         
             
@@ -198,10 +212,6 @@
 
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 Gym Equipment Store. All Rights Reserved.</p>
-    </footer>
     <div id="footer"></div>
 
     <script>
@@ -210,6 +220,7 @@
             item.remove();
         }
     </script>
+    <script src="../js/main.js"></script>
 
 </body>
 </html>

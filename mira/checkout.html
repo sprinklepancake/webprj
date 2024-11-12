@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../main.css"> 
     <link target ="_blank">
     <style>
-        body {
+        .div-body {
             font-family: Arial, sans-serif;
             padding: 20px;
             color: #333; /* Set base text color to dark */
@@ -77,6 +77,7 @@
 
 <body class="body-backg">
     <div id="header"></div>
+    <div class="div-body">
 
     <h2>Checkout</h2>
 
@@ -126,8 +127,10 @@
     <section id="shipping-message" class="message">
         <p><span class="cart-icon">🛒</span> Shipping on the way!</p>
     </section>
+    </div>
+    
     <div id="footer"></div>
-
+    <script src="../js/main.js"></script>
     <script>
         function proceedWithShipping() {
             // Get values from the form
