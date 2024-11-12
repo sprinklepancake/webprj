@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="../main.css"> 
+    <link target ="_blank">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            color: #333; /* Set base text color to dark */
+        }
+
+        h2, h3 {
+            color: #2c2c2c; /* Darker color for headings */
+        }
+
+        .checkout-section {
+            margin-top: 20px;
+        }
+
+        .checkout-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .checkout-btn:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            display: none;
+            font-size: 1.2em;
+            color: #333;
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .cart-icon {
+            font-size: 2em;
+            margin-right: 10px;
+        }
+
+        .location-input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            color: #333; /* Darker text color for input fields */
+        }
+
+        .location-section {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .location-section div {
+            flex: 1;
+            margin: 5px;
+        }
+
+        label {
+            color: #2c2c2c; /* Darker color for labels */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Checkout</h2>
+
+<!-- Location Section with more details -->
+<section class="checkout-section">
+    <h3>Your Location</h3>
+    <div class="location-section">
+        <div>
+            <label for="country">Country:</label>
+            <input type="text" id="country" class="location-input" placeholder="Enter your country" required>
+        </div>
+        <div>
+            <label for="region">Region/State:</label>
+            <input type="text" id="region" class="location-input" placeholder="Enter your region/state" required>
+        </div>
+    </div>
+    <div class="location-section">
+        <div>
+            <label for="street">Street Address:</label>
+            <input type="text" id="street" class="location-input" placeholder="Enter your street address" required>
+        </div>
+        <div>
+            <label for="building">Building/Apartment:</label>
+            <input type="text" id="building" class="location-input" placeholder="Building or apartment number" required>
+        </div>
+    </div>
+</section>
+
+<!-- Payment Method Section -->
+<section class="checkout-section">
+    <h3>Payment Method</h3>
+    <label for="payment-method">Choose a payment method:</label>
+    <select id="payment-method" class="location-input" required>
+        <option value="credit-card">Credit Card</option>
+        <option value="paypal">PayPal</option>
+        <option value="bank-transfer">Bank Transfer</option>
+        <option value="payment-on-delivery">Payment on Delivery</option> <!-- New payment option -->
+    </select>
+</section>
+
+<!-- Proceed with Shipping Button -->
+<section class="checkout-section">
+    <button class="checkout-btn" id="shipping-btn" onclick="proceedWithShipping()">Proceed with Shipping</button>
+</section>
+
+<!-- Shipping Confirmation Message -->
+<section id="shipping-message" class="message">
+    <p><span class="cart-icon">🛒</span> Shipping on the way!</p>
+</section>
+
+<script>
+    function proceedWithShipping() {
+        // Get values from the form
+        const country = document.getElementById('country').value;
+        const region = document.getElementById('region').value;
+        const street = document.getElementById('street').value;
+        const building = document.getElementById('building').value;
+        const paymentMethod = document.getElementById('payment-method').value;
+
+        // Check if all location fields and payment method are filled out
+        if (!country || !region || !street || !building || !paymentMethod) {
+            alert("Please fill in all the required fields.");
+            return;
+        }
+
+        // Hide the checkout button and show the shipping message
+        document.getElementById('shipping-btn').style.display = 'none'; // Hide the button
+        document.getElementById('shipping-message').style.display = 'block'; // Show the message
+    }
+</script>
+
+</body>
+</html>
