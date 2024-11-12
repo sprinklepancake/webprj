@@ -1,7 +1,6 @@
-body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
+::placeholder{
+    color: var(--text);
+}
 
         .form-group {
             margin-bottom: 15px;
@@ -15,6 +14,12 @@ body {
             width: 100%;
             padding: 8px;
             box-sizing: border-box;
+            background-color: var(--greyishblue);
+        }
+
+        input[type="number"] {
+            background-color: var(--greyishblue);
+            color: var(--text);
         }
         button {
             display: inline-block;

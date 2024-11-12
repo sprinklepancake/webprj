@@ -9,10 +9,13 @@
     --secondary-light: #5ab0ff;
     --secondary-dark: #0066cc;
     --background: #f8f9fa;
-    --text: #333333;
-    --text-light: #666666;
-    --white: #ffffff;
+    --text: #fdfafa;
+    --text-light: #c5bfbf;
+    --white: #f1ebeb;
     --price: #d60000;
+    --black: #252424;
+    --greyishblue: #58617a;
+    --dark-green: #0c810c;
 }
 
 body {
@@ -38,14 +41,14 @@ body {
 }
 
 .header_class {
-    color: var(--white);
+    color: var(--black);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: relative;
     z-index: 100;
   }
   
   .grad-color {
-    background: linear-gradient(170deg, var(--secondary) 0%, var(--primary) 100%);
+    background: linear-gradient(170deg, var(--secondary-dark) 0%, var(--primary-dark) 100%);
   }
 
   .nav {
@@ -59,7 +62,7 @@ body {
   
   .logo a {
     font-size: 1.8rem;
-    color: var(--white);
+    color: var(--text);
     font-weight: bold;
     text-decoration: none;
   }
@@ -68,7 +71,7 @@ body {
     display: none; /*make it hidden on desktop (only visible for mobile*/
     font-size: 1.5rem;
     cursor: pointer;
-    color: var(--white);
+    color: var(--black);
     position: absolute;
     top: 1rem;
     right: 1.5rem;
@@ -80,7 +83,7 @@ body {
 }
   
   .nav-links li a {
-    color: var(--white);
+    color: var(--text);
     font-weight: bold;
     text-decoration: none;
     position: relative;
@@ -93,7 +96,7 @@ body {
     display: block;
     width: 0;
     height: 2px;
-    background: var(--secondary-light);
+    background: var(--secondary-dark);
     transition: width 0.3s;
     position: absolute;
     left: 0;
@@ -105,7 +108,7 @@ body {
   }
   
   .nav-links li a:hover {
-    color: var(--secondary-light);
+    color: var(--secondary-dark);
   }
   
   /*mobile*/
@@ -114,7 +117,7 @@ body {
         display: block; /*show menu icon on mobile*/
     }
 
-    .nav-links {
+    .nav-links-li a {
         display: none; /*hide nav links by default on mobile*/
         flex-direction: column;
         width: 100%;
@@ -126,12 +129,13 @@ body {
         z-index: 10;
     }
 
-    .nav-links.active {
+    .nav-links-li.active a{
         display: flex; /*show nav links when active on mobile*/
     }
 
     .nav-links-li {
         margin: 0.5rem 0;
+        color: var(--text);
     }
 }
 
@@ -145,29 +149,30 @@ body {
 
 .header_class nav ul li {
     margin: 0 1rem;
+    color: var(--text);
 }
 
 .header_class nav ul li a {
-    color: var(--white);
+    color: var(--text);
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s ease;
 }
 
 .header_class nav ul li a:hover {
-    color: var(--secondary-light);
+    color: var(--secondary-dark);
 }
 
 footer {
     background-color: var(--primary-dark);
-    color: var(--white);
+    color: var(--text);
     text-align: center;
     padding: 1rem 0;
     margin-top: auto;
 }
 
 form {
-    background-color: var(--white);
+    background-color: var(--black);
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -193,8 +198,8 @@ input[type="email"] {
 }
 
 button {
-    background-color: var(--secondary);
-    color: var(--white);
+    background-color: var(--secondary-dark);
+    color: var(--black);
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 4px;
@@ -224,7 +229,7 @@ button:hover {
 
 /*use this for the gradient backgrund effect (metel in the pics) add it as a class aal <body>*/ /*hasan*/ 
 .body-backg{
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -234,13 +239,13 @@ button:hover {
     width: 100%;
     margin: auto;
     padding: 2rem;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--black);
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .login-container h2 {
-    color: var(--primary);
+    color: var(--primary-dark);
     text-align: center;
     margin-bottom: 1.5rem;
 }
@@ -258,16 +263,17 @@ button:hover {
 .login-container input[type="password"] {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--black);
     border-radius: 4px;
     font-size: 1rem;
+    background-color: var(--greyishblue);
 }
 
 .login-container button {
     width: 100%;
     padding: 0.75rem;
-    background-color: var(--primary);
-    color: var(--white);
+    background-color: var(--primary-dark);
+    color: var(--text);
     border: none;
     border-radius: 4px;
     font-size: 1rem;

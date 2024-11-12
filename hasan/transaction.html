@@ -13,7 +13,7 @@
 
     <style>
         .transaction-container {
-            background-color: var(--white);
+            background-color: var(--black);
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 2rem;
@@ -21,7 +21,7 @@
         }
 
         .page-title {
-            color: var(--primary);
+            color: var(--primary-dark);
             text-align: center;
             margin-bottom: 1.5rem;
             font-size: 2rem;
@@ -31,22 +31,22 @@
         .transaction-table td {
             padding: 1rem;
             text-align: left;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid #373535;
         }
 
         .transaction-table th {
-            background-color: var(--secondary);
-            color: var(--white);
+            background-color: var(--secondary-dark);
+            color: var(--text);
             font-weight: bold;
             text-transform: uppercase;
         }
 
         .transaction-table tr:nth-child(even) {
-            background-color: #f8f8f8;
+            background-color: #312b2b;
         }
 
         .transaction-table tr:hover {
-            background-color: #f0f0f0;
+            background-color: #423e3e;
         }
 
         .status {
@@ -57,8 +57,8 @@
         }
 
         .status.completed {
-            background-color: #4caf50;
-            color: white;
+            background-color: var(--dark-green);
+            color: var(--white);
         }
 
         @media (max-width: 768px) {
@@ -70,6 +70,9 @@
             .transaction-table td {
                 padding: 0.75rem;
             }
+        }
+        td{
+            color: var(--text);
         }
     </style>
 </head>

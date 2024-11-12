@@ -1,5 +1,5 @@
 
-* {
+.values{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -8,7 +8,7 @@
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    color: #333;
+    color: var(--black);
     background-color: #f9f9f9;
     padding: 0;
 }
@@ -33,7 +33,7 @@ body {
 .about-header h2 {
     font-size: 1.5rem;
     font-weight: 300;
-    color: #444;
+    color: var(--black);
 }
 
 .intro {
@@ -50,13 +50,13 @@ body {
     font-size: 1.1rem;
     max-width: 800px;
     margin: auto;
-    color: #444;
+    color: var(--text);
 }
 
 
 h3 {
     font-size: 1.8rem;
-    color: #333;
+    color: var(--black);
     margin-bottom: 15px;
     border-bottom: 2px solid #ddd;
     padding-bottom: 8px;
@@ -102,14 +102,14 @@ section {
     font-size: 1.1rem;
     max-width: 800px;
     margin: 0 auto;
-    color: #333;
+    color: var(--black);
     text-align: center;
     line-height: 1.7;
 }
 
 .our-promise p {
     font-size: 1rem;
-    color: #333;
+    color: var(--black);
     line-height: 1.5;
     padding: 5px 0;
 }
@@ -119,17 +119,10 @@ section {
     max-width: 800px;
     margin: 0 auto;
     line-height: 1.7;
-    color: #333;
+    color: var(--black);
     padding: 10px 0;
 }
 
-.main-footer {
-    text-align: center;
-    padding: 15px 0;
-    border-top: 1px solid #ddd;
-    margin-top: 30px;
-    color: #222;
-}
 
 
 button, a {

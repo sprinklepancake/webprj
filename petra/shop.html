@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../main.css">
     <style>
         .landing-shop-container {
-            background-color: var(--white);
+            background-color: var(--black);
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-top: 2rem;
@@ -57,20 +57,22 @@
             justify-items: center;
         }
 
-        .search-bar-container {
+        .search-bar-container input{
             width: 30%;
             height: fit-content;
+            background-color: var(--text);
         }
 
         #searchbar {
             border: 1px solid #cacaca;
             border-radius: 20px;
             cursor: pointer;
-            background-color: #e6e6e6;
+            background-color: var(--greyishblue);
             width: 100%;
             height: 100%;
             padding: 10px;
             margin-left: 2vmax;
+            color: var(--text);
         }
 
         #searchbar::placeholder {
@@ -221,7 +223,7 @@
         .more-items button {
             border-radius: 20px;
             background-color: var(--primary);
-            color: var(--white);
+            color: var(--black);
             width: fit-content;
             height: fit-content;
         }
