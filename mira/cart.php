@@ -1,87 +1,52 @@
+<!--hasan-->
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
-require_once 'db.php'; // Include the database connection file
+require_once __DIR__ . '/../config/database.php';
 
-// Check if the user is logged in
-$user_id = $_SESSION['user_id'] ?? null;
-
-if (!$user_id) {
-    // Redirect to login page if the user is not logged in
-    header('Location: login.php');
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../hasan/login.php');
     exit;
 }
 
-// Fetch cart items for the logged-in user
-$stmt = $pdo->prepare("
-    SELECT p.product_id, p.product_name, p.product_price, p.product_image, c.quantity
-    FROM cart_items AS c
-    JOIN products AS p ON c.product_id = p.product_id
-    WHERE c.user_id = :user_id
-");
-$stmt->execute(['user_id' => $user_id]);
-$cart_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+try {
+    $conn = getConnection();
+    $userId = $_SESSION['user_id'];
 
-// Calculate the total price of items in the cart
-$total_price = array_sum(array_map(fn($item) => $item['product_price'] * $item['quantity'], $cart_items));
+    //check if user has a cart, if not create one
+    $stmt = $conn->prepare("SELECT cart_id FROM CART WHERE cart_user_id = ?");
+    $stmt->execute([$userId]);
+    $cart = $stmt->fetch();
 
-// Handle the checkout process when the form is submitted
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $shipping_address = trim($_POST['shipping_address']); // Get shipping address from the form
-
-    if (empty($shipping_address)) {
-        echo "Shipping address cannot be empty.";
-        exit;
+    if (!$cart) {
+        //create a new cart for the user
+        $stmt = $conn->prepare("INSERT INTO CART (cart_user_id, cart_quantity) VALUES (?, 0)");
+        $stmt->execute([$userId]);
+        $cartId = $conn->lastInsertId();
+    } else {
+        $cartId = $cart['cart_id'];
     }
 
-    try {
-        // Start a transaction to ensure data consistency
-        $pdo->beginTransaction();
+    //fetch cart items
+    $stmt = $conn->prepare("
+        SELECT i.item_id, i.item_name, i.item_price, i.item_image 
+        FROM ITEM i 
+        JOIN ITEM_IN_CART ic ON i.item_id = ic.item_id 
+        WHERE ic.cart_id = ?
+    ");
+    $stmt->execute([$cartId]);
+    $cartItems = $stmt->fetchAll();
 
-        // Insert the order details into the `orders` table
-        $stmt = $pdo->prepare("
-            INSERT INTO orders (user_id, total_price, shipping_address, status, created_at)
-            VALUES (:user_id, :total_price, :shipping_address, 'Pending', NOW())
-        ");
-        $stmt->execute([
-            'user_id' => $user_id,
-            'total_price' => $total_price,
-            'shipping_address' => $shipping_address,
-        ]);
+    //calculate total price
+    $totalPrice = array_sum(array_column($cartItems, 'item_price'));
 
-        // Retrieve the ID of the newly created order
-        $order_id = $pdo->lastInsertId();
-
-        // Insert each cart item into the `order_items` table
-        foreach ($cart_items as $item) {
-            $stmt = $pdo->prepare("
-                INSERT INTO order_items (order_id, product_id, quantity, price)
-                VALUES (:order_id, :product_id, :quantity, :price)
-            ");
-            $stmt->execute([
-                'order_id' => $order_id,
-                'product_id' => $item['product_id'],
-                'quantity' => $item['quantity'],
-                'price' => $item['product_price'],
-            ]);
-        }
-
-        // Clear the cart for the user after order placement
-        $stmt = $pdo->prepare("DELETE FROM cart_items WHERE user_id = :user_id");
-        $stmt->execute(['user_id' => $user_id]);
-
-        // Commit the transaction
-        $pdo->commit();
-
-        // Redirect to the order confirmation page
-        header('Location: order_confirmation.php?order_id=' . $order_id);
-        exit;
-
-    } catch (PDOException $e) {
-        // Rollback the transaction in case of an error
-        $pdo->rollBack();
-        echo "Error processing your order: " . htmlspecialchars($e->getMessage());
-        exit;
-    }  
+} catch (PDOException $e) {
+    error_log('Database error: ' . $e->getMessage());
+    die('Database error: ' . $e->getMessage());
 }
 ?>
 
@@ -90,145 +55,177 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout</title>
+    <title>Shopping Cart - Fitness Equipment Store</title>
     <link rel="stylesheet" href="../main.css">
     <style>
         .cart-page {
-            padding: 20px;
-            font-family: Arial, sans-serif;
+            padding: 2rem;
         }
 
-        h2 {
-            color: #333; /* Darker color for the header */
+        .cart-header {
+            background-color: var(--black);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .cart-header h2 {
+            color: var(--primary-dark);
+            margin: 0;
         }
 
         .cart-items {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            display: grid;
+            gap: 1.5rem;
         }
 
         .cart-item {
+            background-color: var(--black);
+            border-radius: 8px;
+            padding: 1.5rem;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            border: 1px solid #0e0101;
-            padding: 10px;
-            margin-bottom: 10px;
+            gap: 2rem;
         }
 
-        .product-image {
-            width: 100px;
-            height: auto;
+        .cart-item img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
         }
 
-        .product-details {
+        .item-details {
             flex: 1;
-            margin-left: 20px;
         }
 
         .item-name {
-            font-size: 1.2em;
-            color: #2c2c2c; /* Darker color for the product name */
+            color: var(--primary-dark);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
         }
 
-        .item-price, .item-total {
+        .item-price {
+            color: var(--secondary-dark);
             font-weight: bold;
-            color: #444; /* Darker color for the price */
         }
 
-        .quantity-control {
-            display: flex;
-            align-items: center;
-        }
-
-        .quantity-btn {
-            padding: 5px 10px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
+        .remove-btn {
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-dark);
+            color: var(--black);
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .remove-btn:hover {
+            background-color: var(--secondary-dark);
         }
 
         .cart-total {
-            margin-top: 30px;
+            background-color: var(--black);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
             text-align: right;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .cart-total .total {
-            font-size: 1.5em;
-            font-weight: bold;
+        .cart-total h3 {
+            color: var(--primary-dark);
+            margin: 0;
         }
 
-        .cart-total #total-price {
-            font-size: 2em;
-            color: #333; /* Darker color for total price */
+        .empty-cart {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--black);
+            border-radius: 8px;
+            color: var(--text);
         }
 
         .checkout-btn {
-            background-color: #4CAF50;
-            color: white;
+            padding: 1rem 2rem;
+            background-color: var(--primary-dark);
+            color: var(--black);
             border: none;
-            padding: 10px 20px;
-            font-size: 16px;
+            border-radius: 4px;
             cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .checkout-btn:hover {
-            background-color: #45a049;
-        }
-
-        .shipping-message {
-            display: none;
-            font-size: 1.2em;
-            color: #de1c87;
-            background-color: #e8f5e9;
-            padding: 20px;
-            border-radius: 5px;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .cart-icon {
-            font-size: 2em;
-            margin-right: 10px;
+            background-color: var(--secondary-dark);
         }
     </style>
 </head>
 <body class="body-backg">
     <div id="header"></div>
     
-    <div class="checkout-page">
-        <h2><span class="cart-icon">🛒</span> Checkout</h2>
+    <div class="cart-page">
+        <div class="cart-header">
+            <h2>Shopping Cart</h2>
+        </div>
 
-        <!-- Display cart items -->
-        <section class="cart-items">
-            <?php foreach ($cart_items as $item): ?>
-                <div class="cart-item">
-                    <img src="<?= htmlspecialchars($item['product_image']) ?>" alt="Product" class="product-image">
-                    <div class="product-details">
-                        <p class="item-name"><?= htmlspecialchars($item['product_name']) ?></p>
-                        <p class="item-price">$<?= number_format($item['product_price'], 2) ?></p>
-                        <p class="item-quantity">Quantity: <?= htmlspecialchars($item['quantity']) ?></p>
-                        <p class="item-total">Total: $<?= number_format($item['product_price'] * $item['quantity'], 2) ?></p>
+        <?php if (empty($cartItems)): ?>
+            <div class="empty-cart">
+                <h3>Your cart is empty</h3>
+                <p>Browse our products and add some items to your cart!</p>
+            </div>
+        <?php else: ?>
+            <section class="cart-items">
+                <?php foreach ($cartItems as $item): ?>
+                    <div class="cart-item">
+                        <img src="../petra/<?= htmlspecialchars($item['item_image']) ?>" 
+                            alt="<?= htmlspecialchars($item['item_name']) ?>">
+                        <div class="item-details">
+                            <h3 class="item-name"><?= htmlspecialchars($item['item_name']) ?></h3>
+                            <p class="item-price">$<?= number_format($item['item_price'], 2) ?></p>
+                            <button class="remove-btn" onclick="removeFromCart(<?= $item['item_id'] ?>)">
+                                Remove from Cart
+                            </button>
+                        </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
-        </section>
+                <?php endforeach; ?>
+            </section>
 
-        <!-- Display total price -->
-        <section class="cart-total">
-            <h3>Total Price: $<?= number_format($total_price, 2) ?></h3>
-        </section>
-
-        <!-- Checkout form -->
-        <form action="checkout.php" method="POST">
-            <h3>Shipping Information</h3>
-            <label for="shipping_address">Shipping Address:</label>
-            <textarea name="shipping_address" id="shipping_address" rows="4" required></textarea>
-            <button type="submit" class="checkout-btn">Place Order</button>
-        </form>
+            <div class="cart-total">
+                <h3>Total: $<?= number_format($totalPrice, 2) ?></h3>
+                <a href="checkout.php" class="checkout-btn">Proceed to Checkout</a>
+            </div>
+        <?php endif; ?>
     </div>
 
     <div id="footer"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function removeFromCart(itemId) {
+            $.ajax({
+                url: '../handlers/remove_from_cart.php',
+                type: 'POST',
+                data: { itemId: itemId },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert(response.message || 'Failed to remove item from cart');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', xhr.responseText);
+                    alert('An error occurred: ' + error);
+                }
+            });
+        }
+    </script>
+    <script src="../js/main.js"></script>
 </body>
 </html>

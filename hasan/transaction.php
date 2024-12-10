@@ -171,7 +171,7 @@ $(document).ready(function() {
         error: function(xhr, status, error) {
             console.error('AJAX error:', {xhr, status, error});
             if (xhr.status === 401) {
-                window.location.href = 'login.php'; // Redirect to login if not authenticated
+                window.location.href = 'login.php'; //redirect to login if not authenticated
             } else {
                 alert('Error connecting to server. Please try again later.');
             }

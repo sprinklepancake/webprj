@@ -1,13 +1,51 @@
-<!--petra-->
+<!--hasan-->
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
-include 'includes/db_connect.php';
- if (!isset($_SESSION['user_id'])) {
+require_once __DIR__ . '/../config/database.php';
+
+if (!isset($_SESSION['user_id'])) {
     header("Location: ../hasan/login.php");
     exit();
-} 
- $userId = $_SESSION['user_id'];
-?> 
+}
+
+try {
+    $conn = getConnection();
+    $userId = $_SESSION['user_id'];
+
+    //get all items
+    $stmt = $conn->prepare("SELECT * FROM ITEM ORDER BY item_date_added DESC");
+    $stmt->execute();
+    $items = $stmt->fetchAll();
+
+    //get user's wishlist items
+    $stmt = $conn->prepare("
+        SELECT item_id 
+        FROM ITEM_IN_WISHLIST iw 
+        JOIN WISHLIST w ON iw.wishlist_id = w.wishlist_id 
+        WHERE w.wishlist_user_id = ?
+    ");
+    $stmt->execute([$userId]);
+    $wishlistItems = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+    //get user's cart items
+    $stmt = $conn->prepare("
+        SELECT item_id 
+        FROM ITEM_IN_CART ic 
+        JOIN CART c ON ic.cart_id = c.cart_id 
+        WHERE c.cart_user_id = ?
+    ");
+    $stmt->execute([$userId]);
+    $cartItems = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+} catch (PDOException $e) {
+    error_log('Database error: ' . $e->getMessage());
+    die('An unexpected error occurred.');
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,403 +55,360 @@ include 'includes/db_connect.php';
     <title>Shop Page - Fitness Equipment Store</title>
     <link rel="stylesheet" href="../main.css">
     <style>
+        .status-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 5px;
+            color: white;
+            z-index: 1000;
+            display: none;
+        }
+
+        .status-message.success {
+            background-color: var(--primary-dark);
+        }
+
+        .status-message.error {
+            background-color: #dc3545;
+        }
+
+        body {
+            background-color: var(--black);
+            color: var(--text);
+        }
+
         .landing-shop-container {
-            background-color: var(--white);
+            background-color: var(--black);
+            color: var(--text);
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-top: 2rem;
-            height: fit-content;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
+            padding: 2rem;
         }
 
         .discount-container {
             display: flex;
-            width: 95%;
-            height: fit-content;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: nowrap;
-            margin: 0 auto;
-        }
-
-        .discount-container figure {
-            display: flex;
-            width: 100%;
             justify-content: space-between;
+            margin-bottom: 2rem;
         }
 
         .discount-container img {
-            margin: 10px;
             width: 48%;
             height: auto;
-        }
-
-        #discount1image {
-            float: left;
-        }
-
-        #discount2image {
-            float: right;
+            border-radius: 8px;
         }
 
         .options-pane-container {
             display: flex;
-            flex-direction: row;
-            width: 100%;
-            height: fit-content;
-            padding: 20px;
             align-items: center;
-            justify-content: flex-start;
-            gap: 20px;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .search-bar-container {
-            float: left;
-            width: 20%;
+            flex-grow: 1;
+            margin-right: 1rem;
+            flex: 1 1 200px;
+            min-width: 200px;
         }
 
         #searchbar {
-            border: 1px solid #ffffff;
+            width: 100%;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--greyishblue);
             border-radius: 20px;
-            cursor: pointer;
             background-color: var(--greyishblue);
-            padding: 10px;
-            margin-left: 2vmax;
             color: var(--text);
-            width: 100%;
-            height: fit-content;
         }
 
-        #searchbar::placeholder {
-            font-size: 120%;
-            color: var(--text-light);
+        .icon-container {
+            display: flex;
+            gap: 1rem;
+            flex: 0 0 auto;
         }
 
-        #searchbar:hover, #searchbar:focus {
-            border: 1px solid #999999;
-            outline: none;
+        .icon-container img {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
         }
 
-        .favorites-icon-container {
-            width: 2vmax;
-            height: 2vmax;
-            float: right;
-            margin-left: 4vmax;
-        }
-
-        .favorites-icon-container img {
-            width: 100%;
-            height: 100%;
-            transition: width 0.2s ease, height 0.2s ease;
-        }
-
-        .favorites-icon-container img:hover {
-            width: 130%;
-            height: 130%;
-        }
-
-        .cart-icon-container {
-            width: 2vmax;
-            height: 2vmax;
-            float: right;
-        }
-
-        .cart-icon-container img {
-            height: 100%;
-            width: 100%;
-            transition: width 0.2s ease, height 0.2s ease;
-        }
-
-        .cart-icon-container img:hover {
-            width: 130%;
-            height: 130%;
+        .icon-container img:hover {
+            transform: scale(1.1);
         }
 
         .shop-items {
-            display: flex;
-            justify-content:baseline;
-            flex-wrap: wrap;
-            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
         }
 
         .shop-item {
-            text-align: center;
-            width: 300px;
-            height: fit-content;
-            box-sizing: border-box;
-            justify-content: center;
-            padding-bottom: 20px;
-        }
-
-        .shop-item .item-img img {
+            background-color: var(--greyishblue);
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 15vmax;
-            height: 15vmax;
-            transition: width 0.2s ease, height 0.2s ease;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
         }
 
-        .shop-item .item-img img:hover {
-            width: 17vmax;
-            height: 17vmax;
+        .shop-item:hover {
+            transform: translateY(-5px);
         }
 
-        .hidden {
-            display: none;
+        .item-img img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
         }
 
-        .item-desc-fav-container {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            width: fit-content;
-            height: fit-content;
-            padding: 0;
-            position: relative;
+        .item-details {
+            padding: 1rem;
         }
 
-        .item-fav-icon {
-            float: left;
-            width: 10%;
-            height: 100%;
-            padding-right: 10px;
-        }
-
-        .item-fav-icon img {
-            width: 20px;
-            height: 20px;
-            padding-bottom: 20px;
-            transition: width 0.1s ease, height 0.1s ease;
-            position: absolute;
-        }
-
-        .item-fav-icon img:hover {
-            width: 25px;
-            height: 25px;
-        }
-
-        .item-description {
-            color: var(--black);
-            margin-right: 0;
-            padding-left: 60px;
-            padding-right: 0;
-            float: right;
-            width: 90%;
-            flex-wrap: wrap;
-        }
-
-        .item-description h3, .item-description p {
-            margin: 4px;
+        .item-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--text);
         }
 
         .item-price {
             color: var(--price);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
         }
 
-        .item-info {
-            color: var(--black);
+        .item-description {
+            font-size: 0.9rem;
+            color: var(--text);
+            margin-bottom: 1rem;
         }
 
-        .item-info-news {
-            color: var(--price);
-            text-decoration: underline;
+        .item-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-actions img {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
         }
 
         .more-items {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 30px;
-            margin-top: 30px;
+            text-align: center;
+            margin-top: 2rem;
         }
 
-        .more-items button {
-            border-radius: 20px;
+        #viewMoreButton {
             background-color: var(--primary);
-            color: var(--black);
-            width: fit-content;
-            height: fit-content;
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
         }
 
-        .more-items button:hover, button:active {
-            background-color: #f8480d;
+        #viewMoreButton:hover {
+            background-color: var(--primary-dark);
         }
     </style>
 </head>
 
 <body class="body-backg">
+    <div id="header"></div>
+    
+    <div id="statusMessage" class="status-message"></div>
 
-<div id="header"></div>
-
-<main class="container">
-    <div class="landing-shop-container">
-        <div class="discount-container">
-            <figure>
-                <img id="discount1image" src="uploads/discount1.1.png" alt="november discount">
-                <img id="discount2image" src="uploads/discount2.1.png" alt="order discount">
-            </figure>
-        </div>
-
-        <div class="options-pane-container">
-            <div class="search-bar-container">
-                <input type="text" id="searchbar" placeholder="Search product">
+    <main class="container">
+        <div class="landing-shop-container">
+            <div class="discount-container">
+                <img src="uploads/discount1.1.png" alt="november discount">
+                <img src="uploads/discount2.1.png" alt="order discount">
             </div>
-            <div class="favorites-icon-container">
-                <img src="uploads/heartfull.png" alt="favorites icon" onclick="filterWishlist()">
-            </div>
-            <div class="cart-icon-container">
-                <a href="../mira/cart.html" target="_blank">
-                    <img src="uploads/cart.png" alt="cart icon">
-                </a>
-            </div>
-        </div>
 
-        <div class="shop-items">
-            <?php
-            $sql = "SELECT * FROM item LIMIT 8";
-            $result = $conn->query($sql);
+            <div class="options-pane-container">
+                <div class="search-bar-container">
+                    <input type="text" id="searchbar" placeholder="Search product">
+                </div>
+                <div class="icon-container">
+                    <img id="wishlistFilter" src="uploads/heartfull.png" alt="favorites icon" onclick="filterWishlist()">
+                    <a href="../mira/cart.php">
+                        <img src="uploads/whitecart.png" alt="cart icon">
+                    </a>
+                </div>
+            </div>
 
-            if ($result->num_rows > 0) {
+            <div class="shop-items">
+                <?php 
                 $counter = 0;
-                while ($row = $result->fetch_assoc()) {
-                    // Check if item is in the user's wishlist
-                    $itemId = $row['item_id'];
-                    $wishlistSql = "SELECT * FROM ITEM_IN_WISHLIST iw
-                                    INNER JOIN WISHLIST w ON iw.wishlist_id = w.wishlist_id
-                                    WHERE iw.item_id = ? AND w.wishlist_user_id = ?";
-                    $stmt = $conn->prepare($wishlistSql);
-                    $stmt->bind_param('ii', $itemId, $userId);
-                    $stmt->execute();
-                    $wishlistResult = $stmt->get_result();
-                    $isInWishlist = $wishlistResult->num_rows > 0;
-                    $favoriteIcon = $isInWishlist ? "heartfull.png" : "heartgrey.png";
+                foreach ($items as $item):
+                    $isInWishlist = in_array($item['item_id'], $wishlistItems);
+                    $isInCart = in_array($item['item_id'], $cartItems);
                     $hiddenClass = $counter >= 6 ? 'hidden' : '';
-                    echo '<div class="shop-item ' . $hiddenClass . '" data-id="' . $row['item_id'] . '"data-name="' . htmlspecialchars($row['item_name']) . '">';
-                    echo '    <figure class="item-img">';
-                    echo '        <img src="' . htmlspecialchars($row['item_image']) . '" alt="' . htmlspecialchars($row['item_name']) . '" />'; 
-                    echo '    </figure>';
-                    echo '    <div class="item-desc-fav-container">';
-                    echo '        <div class="item-description">';
-                    echo '            <h3>' . htmlspecialchars($row['item_name']) . '</h3>';
-                    echo '            <p class="item-price">$' . htmlspecialchars($row['item_price']) . '</p>';
-                    echo '            <p class="item-info-news">' . htmlspecialchars($row['item_description']) . '</p>';
-                    echo '        </div>';
-                    echo '        <figure class="item-fav-icon">';
-                    echo '            <img src="uploads/heartgrey.png" alt="Favorites Icon" onclick="toggleImage(this)">';
-                    echo '        </figure>';
-                    echo '    </div>';
-                    echo '</div>';
+                ?>
+                <div class="shop-item <?= $hiddenClass ?>" data-id="<?= $item['item_id'] ?>" data-name="<?= htmlspecialchars($item['item_name']) ?>">
+                    <div class="item-img">
+                        <img src="<?= htmlspecialchars($item['item_image']) ?>" alt="<?= htmlspecialchars($item['item_name']) ?>">
+                    </div>
+                    <div class="item-details">
+                        <h3 class="item-name"><?= htmlspecialchars($item['item_name']) ?></h3>
+                        <p class="item-price">$<?= number_format($item['item_price'], 2) ?></p>
+                        <p class="item-description"><?= htmlspecialchars($item['item_description']) ?></p>
+                        <div class="item-actions">
+                            <img src="uploads/<?= $isInWishlist ? 'heartfull.png' : 'heartgrey.png' ?>" 
+                                 alt="Favorites Icon" 
+                                 onclick="toggleWishlist(this, <?= $item['item_id'] ?>)">
+                            <img src="uploads/cart.png" 
+                                 alt="Cart Icon" 
+                                 style="opacity: <?= $isInCart ? '0.6' : '1' ?>;"
+                                 onclick="toggleCart(this, <?= $item['item_id'] ?>)">
+                        </div>
+                    </div>
+                </div>
+                <?php 
                     $counter++;
-                }
-            } else {
-                echo '<p>No products available</p>';
-            }
-            ?>
+                endforeach; 
+                ?>
+            </div>
+
             <div class="more-items">
                 <button onclick="viewMoreItems()" id="viewMoreButton">View More</button>
             </div>
         </div>
-    </div>
-</main>
+    </main>
 
-<div id="footer"></div>
+    <div id="footer"></div>
+    <script src="../js/main.js"></script>
 
-<script>
-    function toggleImage(element) {
-        const itemElement = element.closest('.shop-item');
-        const itemId = itemElement.getAttribute('data-id');
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
 
-        if (element.src.includes("heartgrey.png")) {
-            element.src = "uploads/heartfull.png";
-            addToWishlist(itemId);
-        } else {
-            element.src = "uploads/heartgrey.png";
-            removeFromWishlist(itemId);
-        }
+function showMessage(message, isSuccess = true) {
+        const messageElement = document.getElementById('statusMessage');
+        messageElement.textContent = message;
+        messageElement.className = 'status-message ' + (isSuccess ? 'success' : 'error');
+        messageElement.style.display = 'block';
+        
+        setTimeout(() => {
+            messageElement.style.display = 'none';
+        }, 3000);
     }
 
-    function addToWishlist(itemId) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'wishlist_action.php', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.send('action=add&item_id=' + itemId);
-
-        xhr.onload = function() {
-            if (xhr.status == 200) {
-                console.log('Item added to wishlist');
+    function toggleWishlist(element, itemId) {
+        const action = element.src.includes('heartgrey.png') ? 'add' : 'remove';
+        
+        fetch('../handlers/wishlist_action.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `action=${action}&item_id=${itemId}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                element.src = `uploads/${action === 'add' ? 'heartfull.png' : 'heartgrey.png'}`;
+                showMessage(data.message);
             } else {
-                console.error('Error adding to wishlist');
+                showMessage(data.message, false);
             }
-        };
+        })
+        .catch(error => {
+            showMessage('Error updating wishlist', false);
+        });
     }
 
-    function removeFromWishlist(itemId) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'wishlist_action.php', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.send('action=remove&item_id=' + itemId);
-
-        xhr.onload = function() {
-            if (xhr.status == 200) {
-                console.log('Item removed from wishlist');
+    function toggleCart(element, itemId) {
+        fetch('../handlers/cart_action.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `action=add&item_id=${itemId}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                element.style.opacity = '0.6';
+                showMessage('Item added to cart');
             } else {
-                console.error('Error removing from wishlist');
+                showMessage(data.message, false);
             }
-        };
+        })
+        .catch(error => {
+            showMessage('Error updating cart', false);
+        });
     }
 
     function filterWishlist() {
         const items = document.querySelectorAll('.shop-item');
-        const isWishlistOnly = document.getElementById('wishlistFilter').classList.contains('active');
+        const wishlistFilter = document.getElementById('wishlistFilter');
+        const isWishlistOnly = wishlistFilter.src.includes('heartgrey.png');
         
         items.forEach(item => {
-            const itemId = item.getAttribute('data-id');
             const heartIcon = item.querySelector('.item-fav-icon img');
-            
             if (isWishlistOnly) {
-                if (heartIcon.src.includes('heartfull.png')) {
-                    item.style.display = '';
-                } else {
-                    item.style.display = 'none';
-                }
+                item.style.display = heartIcon.src.includes('uploads/heartfull.png') ? '' : 'none';
             } else {
                 item.style.display = '';
             }
         });
-        document.getElementById('wishlistFilter').classList.toggle('active');
+        
+        wishlistFilter.src = `${isWishlistOnly ? 'uploads/heartfull.png' : 'uploads/heartgrey.png'}`;
     }
 
     document.getElementById('searchbar').addEventListener('input', function() {
-        let searchTerm = this.value.toLowerCase();
-        let items = document.querySelectorAll('.shop-item');
-
-        items.forEach(item => {
-            let itemName = item.getAttribute('data-name').toLowerCase();
-
-            if (itemName.includes(searchTerm)) {
-                item.style.display = '';
-            } else {
-                item.style.display = 'none';
-            }
+        const searchTerm = this.value.toLowerCase();
+        document.querySelectorAll('.shop-item').forEach(item => {
+            const name = item.getAttribute('data-name').toLowerCase();
+            item.style.display = name.includes(searchTerm) ? '' : 'none';
         });
     });
 
     function viewMoreItems() {
-        const items = document.querySelectorAll('.shop-item');
-        const hiddenItems = Array.from(items).slice(-2);
-
-        hiddenItems.forEach(item => {
-            item.classList.toggle('hidden');
-        });
-
-        if (hiddenItems.every(item => !item.classList.contains('hidden'))) {
-            document.getElementById('viewMoreButton').innerText = "No More Items";
-            document.getElementById('viewMoreButton').disabled = true;
+        const hiddenItems = document.querySelectorAll('.shop-item.hidden');
+        hiddenItems.forEach(item => item.classList.remove('hidden'));
+        
+        if (hiddenItems.length === 0) {
+            const button = document.getElementById('viewMoreButton');
+            button.textContent = "No More Items";
+            button.disabled = true;
         }
     }
-</script>
+        function viewMoreItems() {
+            const hiddenItems = document.querySelectorAll('.shop-item.hidden');
+            hiddenItems.forEach((item, index) => {
+                if (index < 6) {
+                    item.classList.remove('hidden');
+                }
+            });
+
+            if (document.querySelectorAll('.shop-item.hidden').length === 0) {
+                const button = document.getElementById('viewMoreButton');
+                button.textContent = "No More Items";
+                button.disabled = true;
+            }
+        }
+
+        function initializeView() {
+            const allItems = document.querySelectorAll('.shop-item');
+            allItems.forEach((item, index) => {
+                if (index >= 6) {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeView);
+    </script>
 </body>
 </html>
+

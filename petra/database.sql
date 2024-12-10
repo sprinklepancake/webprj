@@ -3,7 +3,7 @@ CREATE DATABASE gym_equipment_store;
 CREATE TABLE USERS (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     user_username VARCHAR(30) UNIQUE NOT NULL,
-    user_password VARCHAR(30) NOT NULL,
+    user_password VARCHAR(255) NOT NULL,     --made pass length 255 chars to be able to fit the hashed val
     user_email VARCHAR(100) NOT NULL,
     user_first_name VARCHAR(50),
     user_last_name VARCHAR(50),
@@ -23,7 +23,7 @@ CREATE TABLE CATEGORY (
     PRIMARY KEY (category_id)
 );
 
-/*hasan: new table for the equipment guide items since they are diff than the regular items*/
+--hasan: new table for the equipment guide items since they are diff than the regular items
 CREATE TABLE EQUIPMENT_GUIDE (
     guide_id INT PRIMARY KEY AUTO_INCREMENT,
     guide_title VARCHAR(100) NOT NULL,
@@ -35,14 +35,14 @@ CREATE TABLE EQUIPMENT_GUIDE (
     date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-/*hasan: insert items for the equipment guide*/
+--hasan: insert items for the equipment guide
 INSERT INTO EQUIPMENT_GUIDE (guide_title, guide_description, guide_image, guide_specs, shop_link, display_order) VALUES 
 (
     'Dumbbells',
     'Dumbbells are versatile pieces of equipment used for strength training. They come in various weights, suitable for all fitness levels.',
     'https://gymequipment.co.uk/pub/media/magefan_blog/img_23-Blog-DumbbellsMix-opti.jpg',
     'Weight range: 2-50 lbs|Material: Steel with rubber coating|Ideal for: Arm, shoulder, and chest exercises',
-    '../petra/shop.html?item=dumbbells',
+    '../petra/shop.php?item=dumbbells',
     1
 ),
 (
@@ -50,7 +50,7 @@ INSERT INTO EQUIPMENT_GUIDE (guide_title, guide_description, guide_image, guide_
     'A yoga mat provides cushioning for joints and support during exercises. Essential for yoga, pilates, and stretching routines.',
     'https://branded.disruptsports.com/cdn/shop/articles/how-long-should-your-yoga-mat-be.jpg?v=1602856064&width=1100',
     'Dimensions: 72" x 24"|Thickness: 6mm|Material: Non-slip PVC',
-    '../petra/shop.html?item=yoga-mat',
+    '../petra/shop.php?item=yoga-mat',
     2
 ),
 (
@@ -58,7 +58,7 @@ INSERT INTO EQUIPMENT_GUIDE (guide_title, guide_description, guide_image, guide_
     'Resistance bands are flexible and portable, used for adding resistance to workouts, especially for warm-ups and rehab exercises.',
     'https://swolverine.com/cdn/shop/articles/Resistance_Band_Exercises_1024x.jpg?v=1645052429',
     'Resistance: Light, Medium, Heavy|Material: Latex|Ideal for: Full-body workout',
-    '../petra/shop.html?item=resistance-bands',
+    '../petra/shop.php?item=resistance-bands',
     3
 ),
 (
@@ -66,7 +66,7 @@ INSERT INTO EQUIPMENT_GUIDE (guide_title, guide_description, guide_image, guide_
     'Kettlebells are a great tool for cardio, strength, and flexibility workouts. Their unique design enables a wide range of movements for functional training.',
     'https://static01.nyt.com/images/2023/04/25/multimedia/WNT-KETTLEBELLS1-kgwl/WNT-KETTLEBELLS1-kgwl-superJumbo.jpg',
     'Weight range: 5-40 lbs|Material: Cast iron with rubber coating|Ideal for: Strength and cardio exercises',
-    '../petra/shop.html?item=kettlebell',
+    '../petra/shop.php?item=kettlebell',
     4
 ),
 (
@@ -74,10 +74,10 @@ INSERT INTO EQUIPMENT_GUIDE (guide_title, guide_description, guide_image, guide_
     'A versatile bench that can be used for various exercises, including chest press, incline press, and more. Perfect for home and commercial gyms.',
     'https://assets.roguefitness.com/f_auto,q_auto,c_fill,g_center,w_1000,h_633,b_rgb:f8f8f8/catalog/Strength%20Equipment/Strength%20Training/Weight%20Benches/Flat%20Utility%20Benches/RA1362/RA1362-AC1_o00vcl.png',
     'Dimensions: 52" x 18" x 18"|Material: Heavy-duty steel|Weight Capacity: 500 lbs',
-    '../petra/shop.html?item=flat-bench',
+    '../petra/shop.php?item=flat-bench',
     5
 );
-
+--now not hasan
 CREATE TABLE ITEM (
     item_id INT AUTO_INCREMENT UNIQUE,
     item_name VARCHAR(100) NOT NULL,

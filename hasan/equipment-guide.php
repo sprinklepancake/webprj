@@ -10,7 +10,7 @@ require_once __DIR__ . '/../config/database.php';
 try {
     $conn = getConnection();
     
-    // Get equipment guide items ordered by display_order
+    //get equipment guide items ordered by display_order
     $stmt = $conn->prepare("SELECT * FROM EQUIPMENT_GUIDE ORDER BY display_order ASC");
     $stmt->execute();
     $equipment_items = $stmt->fetchAll();
@@ -34,7 +34,6 @@ try {
     <!--bootstrap css-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJwL+fOHzv5vwJn60Xy54QkRsM16u1JeDb6IkzGy0y5e5cXhU5tF7eTt6Qt5" crossorigin="anonymous">
     <style>
-        /* Your existing CSS stays the same */
         .equipment-guide-container {
             display: flex;
             flex-direction: column;

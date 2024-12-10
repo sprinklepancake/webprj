@@ -75,7 +75,7 @@
                 <form id="register-form" class="register-container" action="../handlers/register_handler.php" method="POST">
                     <h2>Create Account</h2>
                     
-                    <!-- Essential Information -->
+                    <!--essential info-->
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -120,7 +120,7 @@
                         </select>
                     </div>
 
-                    <!-- Optional Information -->
+                    <!--optional info-->
                     <h5 class="mt-4 mb-3">Contact Information <span class="optional-field">(Optional)</span></h5>
                     
                     <div class="form-group">

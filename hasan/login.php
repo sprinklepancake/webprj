@@ -101,7 +101,7 @@ $(document).ready(function() {
             },
             success: function(response) {
                 if (response.success) {
-                    window.location.href = response.redirect;  // Will use the path from the server
+                    window.location.href = response.redirect;
                 } else {
                     $('#error-message')
                         .removeClass('d-none')

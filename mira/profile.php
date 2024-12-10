@@ -1,3 +1,4 @@
+<!--hasan-->
 <?php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -17,35 +18,34 @@ try {
     $conn = getConnection();
     error_log("Database connection successful"); // Debug log
     
-    // Get user details from the session
+    //get user details from session
     $userId = $_SESSION['user_id'];
     error_log("User ID: " . $userId); // Debug log
 
-    // Query user data
     $stmt = $conn->prepare("SELECT * FROM USERS WHERE user_id = ?");
     $stmt->execute([$userId]);
     $user = $stmt->fetch();
 
     if (!$user) {
-        error_log("No user found for ID: " . $userId); // Debug log
+        error_log("No user found for ID: " . $userId); //debugging while developing
         session_destroy();
         header('Location: ../hasan/login.php');
         exit;
     }
 
-    error_log("User data retrieved successfully"); // Debug log
+    error_log("User data retrieved successfully"); //debugging while developing
 
-    // Query orders - let's check if the table exists first
+    //query orders (check if the table exists first)
     if($conn->query("SHOW TABLES LIKE 'ORDERS'")->rowCount() > 0) {
         $stmt = $conn->prepare("SELECT * FROM ORDERS WHERE order_user_id = ? ORDER BY order_date DESC");
         $stmt->execute([$userId]);
         $orders = $stmt->fetchAll();
     } else {
-        error_log("ORDERS table does not exist"); // Debug log
+        error_log("ORDERS table does not exist"); //debugging while developing
         $orders = [];
     }
 
-    // Query wishlist - let's check if these tables exist
+    //query wishlist (check if the table exists first)
     if($conn->query("SHOW TABLES LIKE 'WISHLIST'")->rowCount() > 0 && 
        $conn->query("SHOW TABLES LIKE 'ITEM_IN_WISHLIST'")->rowCount() > 0 && 
        $conn->query("SHOW TABLES LIKE 'ITEM'")->rowCount() > 0) {
@@ -60,14 +60,14 @@ try {
         $stmt->execute([$userId]);
         $wishlistItems = $stmt->fetchAll();
     } else {
-        error_log("One or more required tables do not exist"); // Debug log
+        error_log("One or more required tables do not exist"); //debugging while developing
         $wishlistItems = [];
     }
 
 } catch (PDOException $e) {
     error_log('Database error: ' . $e->getMessage());
     error_log('Stack trace: ' . $e->getTraceAsString());
-    die('Database error: ' . $e->getMessage()); // Show error in development
+    die('Database error: ' . $e->getMessage()); //show error
 }
 ?> 
 <!DOCTYPE html>
