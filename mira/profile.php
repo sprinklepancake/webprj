@@ -321,28 +321,32 @@ try {
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        function removeFromWishlist(itemId) {
-            $.ajax({
-                url: '../handlers/remove_from_favorites.php',
-                type: 'POST',
-                data: { itemId: itemId },
-                success: function(response) {
-                    if (response.success) {
-                        $(`.wishlist-item[data-item-id="${itemId}"]`).fadeOut(300, function() {
-                            $(this).remove();
-                            if ($('.wishlist-item').length === 0) {
-                                $('.wishlist-items').html('<p class="empty-message">Your wishlist is empty.</p>');
-                            }
-                        });
-                    } else {
-                        alert('Failed to remove item from wishlist');
+function removeFromWishlist(itemId) {
+    $.ajax({
+        url: '../handlers/remove_from_favorites.php',
+        type: 'POST',
+        data: { itemId: itemId },
+        success: function(response) {
+            console.log(response);
+            if (response.success) {
+                $(`.wishlist-item[data-item-id="${itemId}"]`).fadeOut(300, function() {
+                    $(this).remove();
+                    if ($('.wishlist-item').length === 0) {
+                        $('.wishlist-items').html('<p class="empty-message">Your wishlist is empty.</p>');
                     }
-                },
-                error: function() {
-                    alert('An error occurred while removing the item');
-                }
-            });
+                });
+            } else {
+                alert(response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            alert('An error occurred while removing the item: ' + error);
         }
+    }).done(function() {
+        console.log('AJAX request completed');
+    });
+}
     </script>
     <script src="../js/main.js"></script>
 </body>
