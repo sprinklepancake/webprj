@@ -12,7 +12,8 @@ CREATE TABLE USERS (
     user_region VARCHAR(100),
     user_street VARCHAR(50),
     user_bldg VARCHAR(50),
-    user_phone_number INT
+    user_phone_number INT,
+    user_image VARCHAR(255)
 );
 
 CREATE TABLE CATEGORY (
