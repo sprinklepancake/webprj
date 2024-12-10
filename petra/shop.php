@@ -7,7 +7,7 @@ include 'includes/db_connect.php';
     exit();
 } 
  $userId = $_SESSION['user_id'];
-?>
+?> 
 
 <!DOCTYPE html>
 <html lang="en">
