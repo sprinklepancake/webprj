@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Login functionality will be implemented in the backend.'); //still didnt implement the backend stuff    //hasan
         });
     }
 
