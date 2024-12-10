@@ -10,17 +10,18 @@ CREATE TABLE USERS (
     user_region VARCHAR(100),
     user_street VARCHAR(50),
     user_bldg VARCHAR(50),
-    user_phone_number INT
+    user_phone_number INT,
+    user_image VARCHAR(255)
 );
 
 INSERT INTO users (user_id, user_username, user_password, user_email, user_first_name, user_last_name, user_role, user_country, user_region, user_street, user_bldg, user_phone_number)
 VALUES
 (1, 'petrajamal', 'petra12345', 'petra.jamal@lau.edu', 'Petra', 'Jamal', 1, 'Lebanon', 'Beirut', 'Street1', 'Building1', 70522114);
-INSERT INTO users (user_id, user_username, user_password, user_email, user_first_name, user_last_name, user_role, user_country, user_region, user_street, user_bldg, user_phone_number) 
+INSERT INTO users (user_id, user_username, user_password, user_email, user_first_name, user_last_name, user_role, user_country, user_region, user_street, user_bldg, user_phone_number, user_image) 
 VALUES
-(2, 'hassannajjar', 'hassan12345', 'hassan.najjar@lau.edu', 'Hassan', 'Najjar', 2, 'Lebanon', 'Beirut', 'Street2', 'Building2', 78850556),
-(3, 'miraalkadamani', 'mira12345', 'mira.alkadamani@lau.edu', 'Mira', 'Al Kadamani', 1, 'Lebanon', 'Beirut', 'Street3', 'Building3', 70480700),
-(4, 'tiafawaz', 'tia12345', 'tia.fawaz@lau.edu', 'Tia', 'Fawaz', 2, 'Lebanon', 'Beirut', 'Street4', 'Building4', 71504281);
+(2, 'hassannajjar', 'hassan12345', 'hassan.najjar@lau.edu', 'Hassan', 'Najjar', 2, 'Lebanon', 'Beirut', 'Street2', 'Building2', 78850556, '/Images/JohnDoe.jpg'),
+(3, 'miraalkadamani', 'mira12345', 'mira.alkadamani@lau.edu', 'Mira', 'Al Kadamani', 1, 'Lebanon', 'Beirut', 'Street3', 'Building3', 70480700, '/Images/JohnDoe.jpg'),
+(4, 'tiafawaz', 'tia12345', 'tia.fawaz@lau.edu', 'Tia', 'Fawaz', 2, 'Lebanon', 'Beirut', 'Street4', 'Building4', 71504281, '/Images/JohnDoe.jpg');
 
 CREATE TABLE CATEGORY (
     category_id INT AUTO_INCREMENT UNIQUE,
