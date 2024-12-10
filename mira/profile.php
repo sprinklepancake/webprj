@@ -238,7 +238,7 @@ try {
         <section class="profile-section">
             <div class="profile-header">
                 <h2>Welcome, <?= htmlspecialchars($user['user_username']) ?></h2>
-                <a href="../handlers/logout.php" class="logout-btn">Logout</a>
+                <a href="../handlers/logout_handler.php" class="logout-btn">Logout</a>
             </div>
 
             <div class="account-info">
