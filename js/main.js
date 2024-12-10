@@ -1,3 +1,4 @@
+//hasan
 document.addEventListener('DOMContentLoaded', function() {
     //loads the header   //hasan
     fetch('../components/header.html')

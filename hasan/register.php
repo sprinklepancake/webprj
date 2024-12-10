@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--hasan-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -173,27 +174,30 @@
     <script src="../js/main.js"></script>
 
     <script>
-    document.getElementById('register-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        fetch(this.action, {
-            method: 'POST',
-            body: new FormData(this)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                window.location.href = data.redirect;
-            } else {
-                document.getElementById('error-message').textContent = data.message;
-                document.getElementById('error-message').classList.remove('d-none');
-            }
-        })
-        .catch(error => {
-            document.getElementById('error-message').textContent = 'An error occurred. Please try again.';
-            document.getElementById('error-message').classList.remove('d-none');
-        });
+document.getElementById('register-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    fetch(this.action, {
+        method: 'POST',
+        body: new FormData(this)
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            return response.json().then(data => {
+                throw new Error(data.message);
+            });
+        }
+    })
+    .then(data => {
+        window.location.href = data.redirect;
+    })
+    .catch(error => {
+        document.getElementById('error-message').textContent = error.message;
+        document.getElementById('error-message').classList.remove('d-none');
     });
+});
     </script>
 </body>
 </html>

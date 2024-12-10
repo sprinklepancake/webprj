@@ -1,5 +1,5 @@
-<!--hasan-->
 <?php
+//hasan
 //had to add __DIR__ to work
 require_once __DIR__ . '/../config/database.php';
 

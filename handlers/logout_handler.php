@@ -1,5 +1,5 @@
-<!--hasan-->
 <?php
+//hasan
 session_start();
 
 //clear all session variables
