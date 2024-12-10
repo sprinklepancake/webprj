@@ -46,7 +46,7 @@
             flex-wrap: wrap;
         }
 
-        .location-section div {
+        .location-section div { 
             flex: 1;
             margin: 5px;
         }

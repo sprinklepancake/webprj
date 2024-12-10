@@ -25,7 +25,7 @@ $wishlistQuery = $pdo->prepare("
 ");
 $wishlistQuery->execute(['user_id' => $userId]);
 $wishlistItems = $wishlistQuery->fetchAll(PDO::FETCH_ASSOC);
-?>
+?> 
 
 <!DOCTYPE html>
 <html lang="en">

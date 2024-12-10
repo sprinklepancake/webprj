@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->rollBack();
         echo "Error processing your order: " . htmlspecialchars($e->getMessage());
         exit;
-    }
+    }  
 }
 ?>
 

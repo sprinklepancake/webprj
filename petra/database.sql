@@ -156,7 +156,7 @@ CREATE TABLE ITEM_IN_WISHLIST (
     FOREIGN KEY (wishlist_id) REFERENCES WISHLIST(wishlist_id),
     PRIMARY KEY (item_id, wishlist_id)
 );
-
+ 
 -- Triggers
 
 DELIMITER $$
