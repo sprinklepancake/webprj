@@ -1,7 +1,8 @@
 <!--petra-->
 <?php
-include '../config/database.php';
-?> 
+require_once '../config/database.php';
+$conn = getConnection();
+?>
 
 <!DOCTYPE html> 
 <html lang="en">
@@ -13,7 +14,7 @@ include '../config/database.php';
     <link target="_blank">
     <style>
         .landing-shop-container {
-            background-color: var(--white);
+            background-color: var(--black);
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-top: 2rem;
@@ -51,8 +52,8 @@ include '../config/database.php';
             top: 50%;
             transform: translateY(-50%);
             font-size: 30px;
-            color: var(--black);
-            background-color: var(--white);
+            color: var(--white);
+            background-color: var(--black);
             padding: 10px;
             cursor: pointer;
         }
@@ -66,7 +67,7 @@ include '../config/database.php';
         }
 
         .arrow:hover {
-            background-color: #d6d6d6;
+            background-color: rgba(211, 211, 211, 0.1);
         }
 
         .header-text {
@@ -75,7 +76,7 @@ include '../config/database.php';
             margin-bottom: 2rem;
             padding-left: 10px;
             padding-right: 10px;
-            color: var(--black);
+            color: var(--white);
         }
 
         .shop-items {
@@ -105,7 +106,7 @@ include '../config/database.php';
         }
 
         .item-description {
-            color: var(--black);
+            color: var(--white);
             margin-bottom: 20px;
         }
 
@@ -118,11 +119,11 @@ include '../config/database.php';
         }
 
         .item-info {
-            color: var(--black);
+            color: var(--white);
         }
 
         .item-info-news {
-            color: var(--price);
+            color: var(--white);
             text-decoration: underline;
         }
 
@@ -145,7 +146,7 @@ include '../config/database.php';
         }
 
         .more-items a:hover {
-            color: var(--black);
+            color: var(--white);
             cursor: pointer;
             text-decoration: none;
         }
@@ -172,24 +173,30 @@ include '../config/database.php';
 
             <div class="shop-items">
                 <?php
-                $sql = "SELECT * FROM item LIMIT 4";
-                $result = $conn->query($sql);
-
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo '<div class="shop-item">';
-                        echo '    <figure>';
-                        echo '        <img src="' . htmlspecialchars($row['item_image']) . '" alt="' . htmlspecialchars($row['item_name']) . '" />';
-                        echo '    </figure>';
-                        echo '    <div class="item-description">';
-                        echo '        <h3>' . htmlspecialchars($row['item_name']) . '</h3>';
-                        echo '        <p class="item-price">$' . htmlspecialchars($row['item_price']) . '</p>';
-                        echo '        <p class="item-info-news">' . htmlspecialchars($row['item_description']) . '</p>';
-                        echo '    </div>';
-                        echo '</div>';
+                try {
+                    $sql = "SELECT * FROM item LIMIT 4";
+                    $stmt = $conn->query($sql);
+                    $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+                    if (count($items) > 0) {
+                        foreach ($items as $row) {
+                            echo '<div class="shop-item">';
+                            echo '    <figure>';
+                            echo '        <img src="' . htmlspecialchars($row['item_image']) . '" alt="' . htmlspecialchars($row['item_name']) . '" />';
+                            echo '    </figure>';
+                            echo '    <div class="item-description">';
+                            echo '        <h3>' . htmlspecialchars($row['item_name']) . '</h3>';
+                            echo '        <p class="item-price">$' . htmlspecialchars($row['item_price']) . '</p>';
+                            echo '        <p class="item-info-news">' . htmlspecialchars($row['item_description']) . '</p>';
+                            echo '    </div>';
+                            echo '</div>';
+                        }
+                    } else {
+                        echo '<p>No products available</p>';
                     }
-                } else {
-                    echo '<p>No products available</p>';
+                } catch (PDOException $e) {
+                    error_log('Query error: ' . $e->getMessage());
+                    echo '<p>Error retrieving products. Please try again later.</p>';
                 }
                 ?>
                 <div class="more-items">
@@ -200,6 +207,7 @@ include '../config/database.php';
     </main>
 
     <div id="footer"></div>
+    <script src="../js/main.js"></script>
     <script>
         let images = ['uploads/sliding1.png', 'uploads/sliding2.png', 'uploads/sliding3.png'];
         let currentIndex = 0;
