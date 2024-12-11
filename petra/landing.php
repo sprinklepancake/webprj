@@ -1,6 +1,6 @@
 <!--petra-->
 <?php
-include 'includes/db_connect.php';
+include '../config/database.php';
 ?> 
 
 <!DOCTYPE html> 
