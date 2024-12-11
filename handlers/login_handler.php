@@ -43,7 +43,7 @@ try {
         echo json_encode([
             'success' => true,
             'message' => 'Login successful',
-            'redirect' => '../petra/landing.html'
+            'redirect' => '../petra/landing.php'
         ]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Invalid username or password']);

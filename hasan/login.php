@@ -2,7 +2,7 @@
 //hasan
 session_start();
 if (isset($_SESSION['user_id'])) {
-    header('Location: ../petra/landing.html');
+    header('Location: ../petra/landing.php');
     exit;
 }
 ?>

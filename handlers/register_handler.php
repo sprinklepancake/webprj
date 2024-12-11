@@ -165,7 +165,7 @@ try {
     echo json_encode([
         'success' => true,
         'message' => 'Registration successful',
-        'redirect' => '../petra/landing.html'
+        'redirect' => '../petra/landing.php'
     ]);
 } catch (PDOException $e) {
     error_log('Database error: ' . $e->getMessage());
