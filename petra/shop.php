@@ -327,26 +327,35 @@ function showMessage(message, isSuccess = true) {
     }
 
     function toggleCart(element, itemId) {
-        fetch('../handlers/cart_action.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: `action=add&item_id=${itemId}`
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                element.style.opacity = '0.6';
-                showMessage('Item added to cart');
-            } else {
-                showMessage(data.message, false);
-            }
-        })
-        .catch(error => {
-            showMessage('Error updating cart', false);
-        });
-    }
+    console.log('Attempting to add item:', itemId); // Debug log
+    
+    fetch('../handlers/cart_action.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `action=add&item_id=${itemId}`
+    })
+    .then(response => {
+        console.log('Raw response:', response); // Debug log
+        return response.json();
+    })
+    .then(data => {
+        console.log('Parsed response:', data); // Debug log
+        
+        if (data.success) {
+            element.style.opacity = '0.6';
+            showMessage(data.message);
+        } else {
+            showMessage(data.message || 'Error adding to cart', false);
+            console.error('Error details:', data); // Debug log
+        }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error); // Debug log
+        showMessage('Error updating cart: ' + error.message, false);
+    });
+}
 
     function filterWishlist() {
         const items = document.querySelectorAll('.shop-item');
@@ -408,6 +417,33 @@ function showMessage(message, isSuccess = true) {
         }
 
         document.addEventListener('DOMContentLoaded', initializeView);
+        //function to get URL parameters
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+
+//when the page loads, check for search parameter
+document.addEventListener('DOMContentLoaded', function() {
+    const searchParam = getUrlParameter('search');
+    if (searchParam) {
+        //get the search bar and set its value
+        const searchbar = document.getElementById('searchbar');
+        searchbar.value = searchParam;
+        
+        //trigger the search
+        const searchEvent = new Event('input', {
+            bubbles: true,
+            cancelable: true,
+        });
+        searchbar.dispatchEvent(searchEvent);
+        
+        //scroll to the search results
+        searchbar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+});
     </script>
 </body>
 </html>

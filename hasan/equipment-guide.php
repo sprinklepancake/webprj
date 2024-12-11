@@ -162,8 +162,7 @@ try {
                                 <li><?= htmlspecialchars($spec) ?></li>
                             <?php endforeach; ?>
                         </ul>
-                        <a href="<?= htmlspecialchars($item['shop_link']) ?>" class="view-in-shop-btn">View in Shop</a>
-                    </div>
+                        <a href="../petra/shop.php?search=<?= urlencode($item['guide_title']) ?>" class="view-in-shop-btn">View in Shop</a>                    </div>
                 </div>
             </div>
             <?php endforeach; ?>

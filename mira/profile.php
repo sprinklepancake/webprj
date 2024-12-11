@@ -69,7 +69,7 @@ try {
     error_log('Stack trace: ' . $e->getTraceAsString());
     die('Database error: ' . $e->getMessage()); //show error
 }
-?> 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -229,6 +229,82 @@ try {
                 text-align: center;
             }
         }
+        .logout-btn {
+            background-color: var(--secondary-dark);
+            color: var(--white);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .logout-btn:hover {
+            background-color: var(--secondary);
+        }
+
+        .transaction-btn {
+            padding: 10px 20px;
+            background-color: var(--secondary-dark);
+            color: var(--black);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .transaction-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+        }
+
+        .profile-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .transaction-btn {
+            background-color: var(--primary-dark);
+            color: var(--white);
+        }
+
+        .transaction-btn:hover {
+            background-color: var(--primary);
+        }
+
+        .logout-btn {
+            background-color: var(--secondary-dark);
+            color: var(--white);
+        }
+
+        .logout-btn:hover {
+            background-color: var(--secondary);
+        }
+
+        @media (max-width: 768px) {
+            .button-container {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .profile-btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body class="body-backg">
@@ -238,7 +314,10 @@ try {
         <section class="profile-section">
             <div class="profile-header">
                 <h2>Welcome, <?= htmlspecialchars($user['user_username']) ?></h2>
-                <a href="../handlers/logout_handler.php" class="logout-btn">Logout</a>
+                <div class="button-container">
+                    <a href="../hasan/transaction.php" class="profile-btn transaction-btn">Transactions</a>
+                    <a href="../handlers/logout_handler.php" class="profile-btn logout-btn">Logout</a>
+                </div>
             </div>
 
             <div class="account-info">
