@@ -42,7 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             VALUES ('$title', '$description', $price, '$imagePath', '$dateAdded', 0, 1)";
 
     if ($conn->query($sql) === TRUE) {
-        echo "New product posted successfully!";
+        header('Location: ../tia/posting.html');
+        
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
