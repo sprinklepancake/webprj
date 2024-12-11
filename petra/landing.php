@@ -1,4 +1,3 @@
-<!--petra-->
 <?php
 require_once '../config/database.php';
 $conn = getConnection();
@@ -11,144 +10,176 @@ $conn = getConnection();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Page - Fitness Equipment Store</title>
     <link rel="stylesheet" href="../main.css">
-    <link target="_blank">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
         .landing-shop-container {
             background-color: var(--black);
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             margin-top: 2rem;
-            height: fit-content;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
+            overflow: hidden;
         }
 
         .sliding-image-container {
             position: relative;
-            margin: 0 auto;
-            width: 70%;
+            width: 100%;
+            height: 50vh;
             overflow: hidden;
-            justify-content: center;
-            align-items: center;
-            display: flex;
         }
 
         .image-container {
             width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
-            margin-top: 2rem;
+            align-items: center;
         }
 
         .image-container img {
-            border-radius: 8px;
-            height: 29vmax;
-            width: 50vmax;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
         }
 
         .arrow {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 30px;
+            font-size: 2rem;
             color: var(--white);
-            background-color: var(--black);
-            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 1rem;
             cursor: pointer;
+            border: none;
+            outline: none;
+            transition: background-color 0.3s ease;
         }
 
         .left {
-            left: 0;
+            left: 1rem;
         }
 
         .right {
-            right: 0;
+            right: 1rem;
         }
 
         .arrow:hover {
-            background-color: rgba(211, 211, 211, 0.1);
+            background-color: rgba(0, 0, 0, 0.8);
         }
 
         .header-text {
             text-align: center;
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            padding-left: 10px;
-            padding-right: 10px;
+            padding: 3rem 2rem;
+            background: linear-gradient(to right, var(--primary-dark), var(--primary));
+        }
+
+        .header-text h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
             color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .header-text p {
+            font-size: 1.1rem;
+            color: var(--white);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
 
         .shop-items {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 3rem 2rem;
         }
 
         .shop-item {
-            text-align: center;
-            width: 25%;
-            height:fit-content;
+            background-color: var(--black);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .shop-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .shop-item img {
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 15vmax;
-            height: 15vmax;
-            transition: width 0.2s ease, height 0.2s ease;
-        }
-
-        .shop-item img:hover {
-            width: 17vmax;
-            height: 17vmax;
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
         }
 
         .item-description {
-            color: var(--white);
-            margin-bottom: 20px;
+            padding: 1.5rem;
         }
 
-        .item-description h3, .item-description p {
-            margin: 4px;
+        .item-description h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 0.5rem;
         }
 
         .item-price {
-            color: var(--price);
-        }
-
-        .item-info {
-            color: var(--white);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
         }
 
         .item-info-news {
-            color: var(--white);
-            text-decoration: underline;
+            font-size: 0.9rem;
+            color: var(--text);
+            text-decoration: none;
         }
 
         .more-items {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--greyishblue);
-            margin-bottom: 30px;
+            text-align: center;
+            padding: 2rem 0;
         }
 
         .more-items a {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background-color: var(--primary);
+            color: var(--white);
             text-decoration: none;
-        }
-
-        .more-items a:link, a:active, a:visited {
-            color: #7f8186;
-            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
         }
 
         .more-items a:hover {
-            color: var(--white);
-            cursor: pointer;
-            text-decoration: none;
+            background-color: var(--primary-dark);
+        }
+
+        @media (max-width: 768px) {
+            .header-text h1 {
+                font-size: 2rem;
+            }
+
+            .header-text p {
+                font-size: 1rem;
+            }
+
+            .shop-items {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
         }
     </style>
 </head>
@@ -159,11 +190,11 @@ $conn = getConnection();
     <main class="container">
         <div class="landing-shop-container">
             <div class="sliding-image-container">
-                <button class="arrow left" onclick="changeImage(-1)"><</button>
+                <button class="arrow left" onclick="changeImage(-1)">&#10094;</button>
                 <div class="image-container">
-                    <img src="uploads/sliding1.png" id="slideImage" alt="sliding images">
+                    <img src="uploads/sliding1.png" id="slideImage" alt="Featured gym equipment">
                 </div>
-                <button class="arrow right" onclick="changeImage(1)">></button>
+                <button class="arrow right" onclick="changeImage(1)">&#10095;</button>
             </div>
 
             <div class="header-text">
@@ -174,16 +205,14 @@ $conn = getConnection();
             <div class="shop-items">
                 <?php
                 try {
-                    $sql = "SELECT * FROM item LIMIT 4";
+                    $sql = "SELECT * FROM ITEM LIMIT 4";
                     $stmt = $conn->query($sql);
                     $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 
                     if (count($items) > 0) {
                         foreach ($items as $row) {
                             echo '<div class="shop-item">';
-                            echo '    <figure>';
-                            echo '        <img src="' . htmlspecialchars($row['item_image']) . '" alt="' . htmlspecialchars($row['item_name']) . '" />';
-                            echo '    </figure>';
+                            echo '    <img src="' . htmlspecialchars($row['item_image']) . '" alt="' . htmlspecialchars($row['item_name']) . '" />';
                             echo '    <div class="item-description">';
                             echo '        <h3>' . htmlspecialchars($row['item_name']) . '</h3>';
                             echo '        <p class="item-price">$' . htmlspecialchars($row['item_price']) . '</p>';
@@ -199,9 +228,9 @@ $conn = getConnection();
                     echo '<p>Error retrieving products. Please try again later.</p>';
                 }
                 ?>
-                <div class="more-items">
-                    <a href="shop.php">View More Items</a>
-                </div>
+            </div>
+            <div class="more-items">
+                <a href="shop.php">View More Items</a>
             </div>
         </div>
     </main>

@@ -52,7 +52,7 @@ try {
     $stmt->execute([$userId]);
 
     $conn->commit();
-    header('Location: ../petra/landing.html');
+    header('Location: ../petra/landing.php');
 } catch (Exception $e) {
     $conn->rollBack();
     error_log('Order processing error: ' . $e->getMessage());
